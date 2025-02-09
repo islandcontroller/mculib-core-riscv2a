@@ -487,7 +487,7 @@ RV_STATIC_FORCE_INLINE void __EBREAK(void)
     __asm volatile ("csrw " csr ", %0" :: "r"(value));                         \
   }
 
-/* CSR Getter and Setter template instantiations                              */
+/* Standard CSRs                                                              */
 RV_STATIC_FORCE_INLINE TEMPLATE_CSR_GETTER_FN(__get_MSTATUS,    "mstatus");
 RV_STATIC_FORCE_INLINE TEMPLATE_CSR_SETTER_FN(__set_MSTATUS,    "mstatus");
 RV_STATIC_FORCE_INLINE TEMPLATE_CSR_GETTER_FN(__get_MISA,       "misa");
@@ -517,8 +517,9 @@ RV_STATIC_FORCE_INLINE TEMPLATE_CSR_GETTER_FN(__get_MVENDORID,  "mvendorid");
 RV_STATIC_FORCE_INLINE TEMPLATE_CSR_GETTER_FN(__get_MARCHID,    "marchid");
 RV_STATIC_FORCE_INLINE TEMPLATE_CSR_GETTER_FN(__get_MIMPID,     "mimpid");
 RV_STATIC_FORCE_INLINE TEMPLATE_CSR_GETTER_FN(__get_MHARTID,    "mhartid");
-RV_STATIC_FORCE_INLINE TEMPLATE_CSR_GETTER_FN(__get_INTSYSCR,   "intsyscr");
-RV_STATIC_FORCE_INLINE TEMPLATE_CSR_SETTER_FN(__set_INTSYSCR,   "intsyscr");
+/* WCH-custom CSRs                                                            */
+RV_STATIC_FORCE_INLINE TEMPLATE_CSR_GETTER_FN(__get_INTSYSCR,   "0x804");
+RV_STATIC_FORCE_INLINE TEMPLATE_CSR_SETTER_FN(__set_INTSYSCR,   "0x804");
 
 
 /* ############################## Other ##################################### */
