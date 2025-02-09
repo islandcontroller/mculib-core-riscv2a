@@ -141,6 +141,11 @@ typedef struct{
 /* Interrupt register offset from IRQn                                        */
 #define PFIC_IRQn_REG(IRQn)           ((uint32_t)(IRQn) >> 5)
 
+/* Interrupt System Control Register (INTSYSCR)                               */
+#define PFIC_INTSYSCR_HWSTKEN         0x00000001UL
+#define PFIC_INTSYSCR_INESTEN         0x00000002UL
+#define PFIC_INTSYSCR_EABIEN          0x00000004UL
+
 /*!****************************************************************************
  * @brief
  * Enable Interrupt
@@ -564,6 +569,24 @@ RV_STATIC_FORCE_INLINE void __disable_irq(void)
 RV_STATIC_FORCE_INLINE void __enable_irq(void)
 {
   __asm volatile ("csrsi mstatus, 0x08" ::: "memory");
+}
+
+/* ########################### PFIC (contd.) ################################ */
+/*!****************************************************************************
+ * @brief
+ * Configure EABI support, HPE and Interrupt Nesting function
+ *
+ * @param[in] eabi        Enable or disable EABI support
+ * @param[in] hpe         Enable or disable hardware prologue/epilogue (HPE)
+ * @param[in] nest        Enable or disable interrupt nesting
+ * @date  09.02.2025
+ ******************************************************************************/
+RV_STATIC_INLINE void PFIC_Config(FunctionalState eabi, FunctionalState hpe, FunctionalState nest)
+{
+  __set_INTSYSCR( \
+    ((eabi != DISABLE) ? 0 : PFIC_INTSYSCR_EABIEN)  | \
+    ((hpe != DISABLE)  ? 0 : PFIC_INTSYSCR_HWSTKEN) | \
+    ((nest != DISABLE) ? 0 : PFIC_INTSYSCR_INESTEN));
 }
 
 #endif /* CORE_RISCV_H_ */
